@@ -22,6 +22,8 @@
     <!-- <script src="js/scripts.js"></script> -->
     <div id="map" style="width: 1000px; height: 700px;"></div>
     <script>
+      let it = 0;
+
       function addPointLayer(lat, lon, theId, theMap) {
         theMap.addLayer({
           id: theId,
@@ -56,9 +58,9 @@
         "pk.eyJ1IjoiamxlbmdyYW5kIiwiYSI6ImJrRUVlNk0ifQ.XmcYBGenB-uXVEvrCusv1Q";
       var map = new mapboxgl.Map({
         container: "map",
-        style: "mapbox://styles/mapbox/streets-v11",
-        center: [13.410778, 52.539963],
-        zoom: 15
+        style: "mapbox://styles/mapbox/satellite-v9",
+        center: [13.415755294789022, 52.54062410186097],
+        zoom: 17
       });
 
       map.on("load", () => {
@@ -94,6 +96,11 @@
           .catch(err => {
             console.log("Fetch Error :-S", err);
           });
+      });
+
+      map.on("mousemove", e => {
+        it++;
+        console.log(it + " " + e.lngLat);
       });
     </script>
   </body>
