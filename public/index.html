@@ -22,11 +22,81 @@
     <!-- <script src="js/scripts.js"></script> -->
     <div id="map" style="width: 1000px; height: 700px;"></div>
     <script>
+      function addPointLayer(lat, lon, theId, theMap) {
+        theMap.addLayer({
+          id: theId,
+          type: "symbol",
+          source: {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [lon, lat]
+                  },
+                  properties: {
+                    title: "Parkpoint",
+                    icon: "monument"
+                  }
+                }
+              ]
+            }
+          },
+          layout: {
+            "icon-image": "{icon}-15",
+            "text-field": "{title}",
+            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+            "text-offset": [0, 0.6],
+            "text-anchor": "top"
+          }
+        });
+      }
+
       mapboxgl.accessToken =
         "pk.eyJ1IjoiamxlbmdyYW5kIiwiYSI6ImJrRUVlNk0ifQ.XmcYBGenB-uXVEvrCusv1Q";
       var map = new mapboxgl.Map({
         container: "map",
-        style: "mapbox://styles/mapbox/streets-v11"
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [13.410778, 52.539963],
+        zoom: 15
+      });
+
+      map.on("load", () => {
+        fetch("/poidump.json")
+          .then(response => {
+            if (response.status !== 200) {
+              console.log(
+                "Looks like there was a problem. Status Code: " +
+                  response.status
+              );
+              return;
+            }
+
+            // Examine the text in the response
+            response.json().then(data => {
+              console.log(data);
+              const poiCollection = data.poiCollection;
+
+              poiCollection.map(poi => {
+                console.log(
+                  poi.gisCollection[0].latitude,
+                  poi.gisCollection[0].longitude
+                );
+                addPointLayer(
+                  poi.gisCollection[0].latitude,
+                  poi.gisCollection[0].longitude,
+                  poi.id.toString(),
+                  map
+                );
+              });
+            });
+          })
+          .catch(err => {
+            console.log("Fetch Error :-S", err);
+          });
       });
     </script>
   </body>
