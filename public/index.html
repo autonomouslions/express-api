@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="ufo.ico" />
+
+    <title>SpacePod - Make your parking space the pod of tomorrow.</title>
+    <meta name="description" content="SpacePod" />
+    <meta name="author" content="Autonomous Lions" />
+
+    <!-- <link rel="stylesheet" href="css/styles.css?v=1.0" /> -->
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- <script src="js/scripts.js"></script> -->
+    <div id="map" style="width: 1000px; height: 700px;"></div>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiamxlbmdyYW5kIiwiYSI6ImJrRUVlNk0ifQ.XmcYBGenB-uXVEvrCusv1Q";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11"
+      });
+    </script>
+  </body>
+</html>
