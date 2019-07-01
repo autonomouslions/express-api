@@ -25,7 +25,7 @@
       function addPointLayer(lat, lon, theId, theMap) {
         theMap.addLayer({
           id: theId,
-          type: "symbol",
+          type: "circle",
           source: {
             type: "geojson",
             data: {
@@ -45,12 +45,9 @@
               ]
             }
           },
-          layout: {
-            "icon-image": "{icon}-15",
-            "text-field": "{title}",
-            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-            "text-offset": [0, 0.6],
-            "text-anchor": "top"
+          paint: {
+            "circle-radius": 10,
+            "circle-color": "#007cbf"
           }
         });
       }
