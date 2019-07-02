@@ -20,13 +20,15 @@
 
   <body>
     <!-- <script src="js/scripts.js"></script> -->
-
-    <button onClick="dennsBiomarkt()">
-        Go to Denn's biomarkt - schliemannstraße
-    </button>    
+<div style="display: flex">
     <div id="map" style="width: 900px; height: 700px;"></div>
-    <img id="spotImage" style="width: 200px; height: 200px; "></img>
-
+    <div style="display: flex; flex-direction: column">
+    <button style="height: 20pt" onClick="dennsBiomarkt()">
+        Go to Denn's biomarkt - schliemannstraße
+    </button> 
+    <img id="spotImage" style="width: 200px; height: 200px;"></img>
+    </div>
+</div>
     <script>
       const busy = "#f02c2e";
       const booked = "#ffce5d";
