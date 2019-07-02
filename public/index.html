@@ -20,10 +20,13 @@
 
   <body>
     <!-- <script src="js/scripts.js"></script> -->
+
     <button onClick="dennsBiomarkt()">
-      Go to Denn's biomarkt - schliemannstraße
-    </button>
-    <div id="map" style="width: 1000px; height: 700px;"></div>
+        Go to Denn's biomarkt - schliemannstraße
+    </button>    
+    <div id="map" style="width: 900px; height: 700px;"></div>
+    <img id="spotImage" style="width: 200px; height: 200px; "></img>
+
     <script>
       const busy = "#f02c2e";
       const booked = "#ffce5d";
@@ -158,6 +161,8 @@
       // });
 
       function dennsBiomarkt() {
+        document.getElementById("spotImage").src = "/plop2.jpeg";
+
         console.log("in click method");
         const newCenter = [13.415755294789022, 52.54062410186097];
         map.flyTo({
@@ -207,30 +212,31 @@
 
         // poll for status change
         console.log("starting to poll for status changes");
-        setInterval(() => {
-          fetch("/status")
-            .then(response => {
-              if (response.status !== 200) {
-                console.log(
-                  "Looks like there was a problem. Status Code: " +
-                    response.status
-                );
-                return;
-              }
+        setTimeout(() => {
+          setInterval(() => {
+            fetch("/status")
+              .then(response => {
+                if (response.status !== 200) {
+                  console.log(
+                    "Looks like there was a problem. Status Code: " +
+                      response.status
+                  );
+                  return;
+                }
 
-              response.json().then(data => {
-                // console.log(data);
-                map.setPaintProperty("7", "circle-color", data.status);
+                response.json().then(data => {
+                  map.setPaintProperty("7", "circle-color", data.status);
+                });
+              })
+              .catch(err => {
+                console.log("Fetch Error :-S", err);
               });
-            })
-            .catch(err => {
-              console.log("Fetch Error :-S", err);
-            });
 
-          setTimeout(() => {
-            map.setPaintProperty("7", "circle-color", booked);
-          }, 4000);
-        }, 1000);
+            setTimeout(() => {
+              map.setPaintProperty("7", "circle-color", booked);
+            }, 4000);
+          }, 1000);
+        }, 3000);
       }
     </script>
   </body>
