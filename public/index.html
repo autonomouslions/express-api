@@ -20,11 +20,16 @@
 
   <body>
     <!-- <script src="js/scripts.js"></script> -->
+    <button onClick="dennsBiomarkt">Go to Denn's biomarkt</button>
     <div id="map" style="width: 1000px; height: 700px;"></div>
     <script>
+      const busy = "#f02c2e";
+      const booked = "#ffce5d";
+      const free = "#5ac5b2";
+
       let it = 0;
 
-      function addPointLayer(lat, lon, theId, theMap) {
+      function addPointLayer(lat, lon, theId, theMap, status) {
         theMap.addLayer({
           id: theId,
           type: "circle",
@@ -48,8 +53,8 @@
             }
           },
           paint: {
-            "circle-radius": 10,
-            "circle-color": "#007cbf"
+            "circle-radius": 5,
+            "circle-color": busy
           }
         });
       }
@@ -58,7 +63,8 @@
         "pk.eyJ1IjoiamxlbmdyYW5kIiwiYSI6ImJrRUVlNk0ifQ.XmcYBGenB-uXVEvrCusv1Q";
       var map = new mapboxgl.Map({
         container: "map",
-        style: "mapbox://styles/mapbox/satellite-v9",
+        // style: "mapbox://styles/mapbox/satellite-v9",
+        style: "mapbox://styles/mapbox/streets-v11",
         center: [13.415755294789022, 52.54062410186097],
         zoom: 17
       });
@@ -81,8 +87,8 @@
 
         fakePoints.map(point => {
           it++;
-          console.log(point[0], point[1]);
-          addPointLayer(point[1], point[0], it.toString(), map);
+          // console.log(point[0], point[1]);
+          addPointLayer(point[1], point[0], it.toString(), map, busy);
         });
 
         fetch("/poidump.json")
@@ -101,15 +107,16 @@
               const poiCollection = data.poiCollection;
 
               poiCollection.map(poi => {
-                console.log(
-                  poi.gisCollection[0].latitude,
-                  poi.gisCollection[0].longitude
-                );
+                // console.log(
+                //   poi.gisCollection[0].latitude,
+                //   poi.gisCollection[0].longitude
+                // );
                 addPointLayer(
                   poi.gisCollection[0].latitude,
                   poi.gisCollection[0].longitude,
                   poi.id.toString(),
-                  map
+                  map,
+                  busy
                 );
               });
             });
