@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="ufo.ico" />
+    <link rel="icon" href="logo.ico" />
 
     <title>SpacePod - Make your parking space the pod of tomorrow.</title>
     <meta name="description" content="SpacePod" />
@@ -20,8 +20,13 @@
 
   <body>
     <!-- <script src="js/scripts.js"></script> -->
-<div style="display: flex">
-    <div id="map" style="width: 900px; height: 700px;"></div>
+    <div id="title">    
+        <img src="logo.jpeg" style="height: 80px"></img>
+        <img src="title.jpeg" style="height: 80px"></img>
+      </div>
+      <div style="display: flex">
+
+    <div id="map" style="width: 900px; height: 650px;"></div>
     <div style="display: flex; flex-direction: column">
     <button style="height: 20pt" onClick="dennsBiomarkt()">
         Go to Denn's biomarkt - schliemannstraße
@@ -193,7 +198,7 @@
           });
 
         // Booking sensor!
-        fetch("http://10.1.128.212:3001/book")
+        fetch("http://192.168.43.169:3001/book")
           .then(response => {
             if (response.status !== 200) {
               console.log(
