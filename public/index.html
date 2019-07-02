@@ -171,8 +171,23 @@
           map
         );
 
+        // setting backend status
+        fetch("/booked")
+          .then(response => {
+            if (response.status !== 200) {
+              console.log(
+                "Looks like there was a problem. Status Code: " +
+                  response.status
+              );
+              return;
+            }
+          })
+          .catch(err => {
+            console.log("Fetch Error :-S", err);
+          });
+
         // Booking sensor!
-        fetch("theSensor")
+        fetch("http://10.1.128.212:3001/book")
           .then(response => {
             if (response.status !== 200) {
               console.log(
@@ -189,6 +204,33 @@
         setTimeout(() => {
           map.setPaintProperty("7", "circle-color", booked);
         }, 4000);
+
+        // poll for status change
+        console.log("starting to poll for status changes");
+        setInterval(() => {
+          fetch("/status")
+            .then(response => {
+              if (response.status !== 200) {
+                console.log(
+                  "Looks like there was a problem. Status Code: " +
+                    response.status
+                );
+                return;
+              }
+
+              response.json().then(data => {
+                // console.log(data);
+                map.setPaintProperty("7", "circle-color", data.status);
+              });
+            })
+            .catch(err => {
+              console.log("Fetch Error :-S", err);
+            });
+
+          setTimeout(() => {
+            map.setPaintProperty("7", "circle-color", booked);
+          }, 4000);
+        }, 1000);
       }
     </script>
   </body>
