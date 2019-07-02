@@ -161,7 +161,6 @@
       // });
 
       function dennsBiomarkt() {
-        document.getElementById("spotImage").src = "/plop2.jpeg";
 
         console.log("in click method");
         const newCenter = [13.415755294789022, 52.54062410186097];
@@ -206,12 +205,26 @@
             console.log("Fetch Error :-S", err);
           });
 
+        // booking interface
         setTimeout(() => {
+          document.getElementById("spotImage").src = "/plop2.jpeg";
           map.setPaintProperty("7", "circle-color", booked);
+          let readyPopup = new mapboxgl.Popup({className: 'my-class'})
+            .setLngLat({lon: 13.416080998931392, lat: 52.540585359874456})
+            .setHTML("Houston, SpacePod is ready for landing!")
+            .setMaxWidth("300px")
+            .addTo(map);
+
+          setTimeout(() => {
+            readyPopup.remove();
+          }, 2000);
         }, 4000);
+
+
 
         // poll for status change
         console.log("starting to poll for status changes");
+        let lastStatus;
         setTimeout(() => {
           setInterval(() => {
             fetch("/status")
@@ -225,16 +238,29 @@
                 }
 
                 response.json().then(data => {
+                  // detecting someone leaving
+                  if(lastStatus && data.status !== lastStatus && data.status === free){
+                    let leavePopup = new mapboxgl.Popup({className: 'my-class'})
+                      .setLngLat({lon: 13.416080998931392, lat: 52.540585359874456})
+                      .setHTML("Houston, take off detected!")
+                      .setMaxWidth("300px")
+                      .addTo(map);
+
+                    setTimeout(() => {
+                      leavePopup.remove();
+                    }, 2000);
+                  }
                   map.setPaintProperty("7", "circle-color", data.status);
+                  lastStatus = data.status;
                 });
               })
               .catch(err => {
                 console.log("Fetch Error :-S", err);
               });
 
-            setTimeout(() => {
-              map.setPaintProperty("7", "circle-color", booked);
-            }, 4000);
+            // setTimeout(() => {
+            //   map.setPaintProperty("7", "circle-color", booked);
+            // }, 4000);
           }, 1000);
         }, 3000);
       }
