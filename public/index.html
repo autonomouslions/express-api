@@ -163,9 +163,6 @@
         map.flyTo({
           center: newCenter
         });
-        // change map location
-        // book one location
-        // show the street view
 
         addSearchAreaLayer(
           "52.54072850598004",
@@ -174,7 +171,20 @@
           map
         );
 
-        // 79 LngLat(13.416388296129782, 52.54072850598004);
+        // Booking sensor!
+        fetch("theSensor")
+          .then(response => {
+            if (response.status !== 200) {
+              console.log(
+                "Looks like there was a problem. Status Code: " +
+                  response.status
+              );
+              return;
+            }
+          })
+          .catch(err => {
+            console.log("Fetch Error :-S", err);
+          });
 
         setTimeout(() => {
           map.setPaintProperty("7", "circle-color", booked);
